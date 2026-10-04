@@ -1,0 +1,13 @@
+Catégorie,Indicateur,Valeur,Unité
+Délais,Durée médiane (K1),26.0,min
+Délais,Durée moyenne,26.3,min
+Délais,Écart pire / meilleur créneau (K6),9.2,min
+Délais,Minutes perdues par livraison (K3),3.94,min
+Retards,Taux de retard (K2),45.6,%
+Retards,Temps perdu sur la période (K4),114,jours
+Conditions,Trafic dense vs fluide (K7),9.9,min
+Conditions,Météo sévère vs favorable (K8),2.9,min
+Espace,Minutes ajoutées par km (K9),0.54,min/km
+Espace,Corrélation distance / durée,0.32,coef.
+Qualité,Conservation des données (K11),91.1,%
+Qualité,Groupes non concluants (K12),1,groupes

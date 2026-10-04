@@ -1,0 +1,41 @@
+# ===========================================================================
+# Fichiers à ne JAMAIS versionner
+# ===========================================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+
+# Environnements virtuels
+.venv/
+venv/
+env/
+ENV/
+.conda/
+.env
+
+# Jupyter : les sorties de sauvegarde ne doivent pas être versionnées
+.ipynb_checkpoints/
+profile_default/
+ipython_config.py
+
+# Systèmes et éditeurs
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# ===========================================================================
+# Fichiers versionnés
+#
+# figures/ et outputs/ sont volontairement INCLUS : ce sont les résultats
+# de l'étude, pas des fichiers de travail. Un correcteur doit pouvoir
+# consulter les graphiques et les tableaux sans exécuter le notebook.
+# ===========================================================================

@@ -1,0 +1,22 @@
+comparaison,modalité,effectif,conclusion possible
+Tranche horaire,Nuit,395,oui
+Tranche horaire,Matin,5272,oui
+Tranche horaire,Midi,4056,oui
+Tranche horaire,Apres-midi,5377,oui
+Tranche horaire,Soir,20991,oui
+Niveau de trafic,Low,14095,oui
+Niveau de trafic,Medium,10023,oui
+Niveau de trafic,High,4046,oui
+Niveau de trafic,Jam,12950,oui
+Niveau de trafic,Inconnu,408,oui
+Groupe météo,Favorable,13474,oui
+Groupe météo,Neutre,7301,oui
+Groupe météo,Severe,20747,oui
+Type de ville,Inconnu,1097,oui
+Type de ville,Metropolitaine,31103,oui
+Type de ville,Semi-urbaine,147,oui
+Type de ville,Urbaine,9175,oui
+Véhicule,bicycle,43,NON
+Véhicule,electric scooter,3404,oui
+Véhicule,motorcycle,24197,oui
+Véhicule,scooter,13878,oui

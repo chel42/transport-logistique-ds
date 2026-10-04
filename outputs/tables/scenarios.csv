@@ -1,0 +1,5 @@
+scenario,livraisons concernées,durée actuelle (min),gain / livraison (min),gain total (min),hypothèse,limite
+Planifier hors des zones congestionnées,12950,31.19,8.78,113641,"À distance comparable, un trajet en trafic fluide dure moins longtemps.",Le report modal n'est pas vérifiable ici.
+Adapter le véhicule au type de trajet,41522,26.32,2.39,99173,"Meilleur véhicule par classe de distance, à distance comparable.",Le coût d'acquisition n'est pas mesuré.
+Prévoir une marge par mauvais temps,20747,26.93,2.88,59733,"À distance comparable, la météo sévère allonge la durée.",La météo n'est pas contrôlable : le levier est l'anticipation.
+Décaler les livraisons hors des pointes,15966,27.58,1.88,29994,"À distance comparable, une livraison hors pointe dure moins longtemps.",Le client choisit son heure de commande.

@@ -1,0 +1,32 @@
+# ===========================================================================
+# Dépendances du projet Transport & Logistique
+#
+# Le cahier des charges limite le périmètre technique à :
+#   "pandas, statistiques et visualisation de données"
+#
+# C'est pourquoi ce fichier ne contient QUE ces outils.
+# Aucun outil de machine learning n'est nécessaire.
+#
+# Installation :   pip install -r requirements.txt
+# ===========================================================================
+
+# --- Manipulation des données ---------------------------------------------
+pandas>=2.0
+numpy>=1.24
+
+# --- Calcul statistique ---------------------------------------------------
+# scipy sert aux tests statistiques (comparaison de groupes, corrélations).
+scipy>=1.10
+
+# --- Visualisation --------------------------------------------------------
+matplotlib>=3.7
+seaborn>=0.12
+
+# tabulate est requis par pandas pour afficher un tableau au format Markdown.
+tabulate>=0.9
+
+# --- Environnement de travail ---------------------------------------------
+# Nécessaire pour exécuter le notebook dans JupyterLab ou VSCode.
+jupyterlab>=4.0
+notebook>=7.0
+ipykernel>=6.25
