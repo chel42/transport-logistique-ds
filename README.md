@@ -1,6 +1,6 @@
-# Transport & Logistique — Analyse des retards de livraison
+# Transport & Logistique - Analyse des retards de livraison
 
-**Projet Data Science — Semaine 17 · Groupe 4**
+**Projet Data Science - Semaine 17 · Groupe 4**
 
 Analyse de 45 593 livraisons réelles pour identifier les facteurs qui
 allongent les délais de livraison.
@@ -15,7 +15,7 @@ Le cahier des charges limite les outils à :
 
 C'est pourquoi ce projet n'utilise **aucun outil de machine learning**.
 Les analyses reposent sur des comparaisons de groupes, des corrélations et des
-tests statistiques simples — tous utilisés à un niveau compréhensible.
+tests statistiques simples - tous utilisés à un niveau compréhensible.
 
 ---
 
@@ -73,10 +73,6 @@ transport-logistique-ds/
 └── .gitignore
 ```
 
-**Cette structure est volontairement minimaliste :** tout le travail est dans
-le notebook. Il n'y a pas de dossier `src/`, pas de paquet à installer, pas de
-fichier de configuration caché. Chaque membre du groupe peut donc lire,
-comprendre et modifier le code sans difficulté.
 
 ### Les dossiers vides sont-ils un problème ?
 
@@ -98,10 +94,7 @@ Le notebook suit l'ordre du cahier des charges. Chaque section a la même forme 
 | **C — Comparer** | 10 à 12 | Corrélations, comparaisons statistiques, tableau de bord |
 | **D — Conclure** | 13 à 16 | Scénarios, règles d'interprétation, bilan |
 
-Le notebook compte **66 cellules** : 26 de texte et 40 de code. Les explications
-et les commentaires dans le code sont concis, techniques et sans superflu. Le
-notebook ne contient aucun emoji et n'affiche que des tableaux et des
-graphiques — jamais de `print()`.
+Le notebook compte **66 cellules** : 26 de texte et 40 de code.
 
 ### Les figures produites
 
@@ -166,5 +159,5 @@ puisqu'elles servent au calcul et non à la conservation de l'information brute.
 | Jeu de données | Food Delivery Dataset (Kaggle) |
 | Éditeur | gauravmalik26 |
 | Lien | <https://www.kaggle.com/datasets/gauravmalik26/food-delivery-dataset> |
-| Fichier | `train.csv` — 45 593 lignes, 20 colonnes |
+| Fichier | `train.csv` - 45 593 lignes, 20 colonnes |
 | Période | février → avril 2022 (8 semaines) |

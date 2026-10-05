@@ -1,4 +1,4 @@
-# Rapport d'analyse — Mia Foods
+# Rapport d'analyse - Mia Foods
 
 **Destinataire :** le propriétaire de Mia Foods
 **Objet :** ce que l'étude des livraisons peut améliorer dans notre service
@@ -74,7 +74,7 @@ que la normale.
 **Comment lire ce chiffre :** la durée normale de 26 minutes est la *valeur
 médiane* de l'étude, c'est-à-dire le point qui partage les livraisons en deux
 moitiés égales. Par construction, environ la moitié d'entre elles la dépasse
-donc toujours — le « 46 sur 100 » décrit la répartition de nos durées, il ne
+donc toujours - le « 46 sur 100 » décrit la répartition de nos durées, il ne
 mesure pas une surprise ni une défaillance. Ce qui est utile, c'est de savoir
 **quelles** livraisons dépassent ce seuil et pourquoi : c'est tout l'objet des
 causes détaillées ci-dessous.
@@ -144,8 +144,8 @@ C'est peu, mais sur une longue distance cela s'accumule.
 
 ### Le point important : la cuisine n'est pas en cause
 
-Nous avons cherché si le temps passé en cuisine — entre le moment où le client
-commande et le moment où le colis part — influençait la durée totale de la
+Nous avons cherché si le temps passé en cuisine entre le moment où le client
+commande et le moment où le colis part influençait la durée totale de la
 livraison.
 
 **La réponse est non.**
@@ -223,7 +223,7 @@ rien et supprime une bonne partie des retards.
 
 ## 4. Ce que nous devons faire
 
-### Règle 1 — Le délai annoncé dépend de la zone et de l'heure
+### Règle 1 - Le délai annoncé dépend de la zone et de l'heure
 
 Nous ne promettons plus un délai unique.
 
@@ -241,7 +241,7 @@ Nous ne promettons plus un délai unique.
 **Pourquoi :** nous ne pouvons pas tenir 30 minutes le soir sur une longue
 distance. Mieux vaut annoncer 45 minutes et tenir, que annoncer 30 et échouer.
 
-### Règle 2 — Jamais plus de deux commandes par livreur le soir
+### Règle 2 - Jamais plus de deux commandes par livreur le soir
 
 | Situation | Nombre de commandes par livreur |
 |---|---|
@@ -251,17 +251,17 @@ distance. Mieux vaut annoncer 45 minutes et tenir, que annoncer 30 et échouer.
 | Plus de 2 commandes | Uniquement le matin, et seulement vers des zones éloignées les unes des autres |
 
 **Pourquoi :** deux commandes ajoutent seulement 4 minutes, mais trois en
-ajoutent déjà 18 par rapport à une livraison seule — et quatre, 25 minutes.
+ajoutent déjà 18 par rapport à une livraison seule et quatre, 25 minutes.
 
-### Règle 3 — Les jours de festival, on change de plan
+### Règle 3 - Les jours de festival, on change de plan
 
 - Annoncer 10 minutes de plus que le délai normal.
-- Envoyer les commandes non urgentes **entre 10h et 14h**, l'après-midi. C'est
+- Envoyer les commandes non urgentes entre 10h et 14h, l'après-midi. C'est
   notre moment le plus calme.
 
 **Pourquoi :** un jour de festival coûte près de 20 minutes de plus.
 
-### Règle 4 — Le véhicule dépend de la distance
+### Règle 4 - Le véhicule dépend de la distance
 
 | La course | Le véhicule à envoyer |
 |---|---|
@@ -272,14 +272,14 @@ ajoutent déjà 18 par rapport à une livraison seule — et quatre, 25 minutes.
 **Ne pas envoyer de voiture pour une course de moins de 5 km.** Elle sera plus
 lente et plus coûteuse.
 
-### Règle 5 — Ne pas presser la cuisine
+### Règle 5 - Ne pas presser la cuisine
 
 Nous gardons notre organisation actuelle. Nous ne cherchons pas à accélérer la
 préparation des plats.
 
 **Pourquoi :** cela ne change rien à la durée de livraison.
 
-### Règle 6 — Prévenir le client en cas de retard
+### Règle 6 - Prévenir le client en cas de retard
 
 Dès qu'une livraison dépasse le délai annoncé, nous prévenons le client
 immédiatement par SMS ou par message :
@@ -290,14 +290,14 @@ immédiatement par SMS ou par message :
 **Pourquoi :** un client prévenu ne se plaint pas. Un client surpris, si. Cette
 règle ne coûte rien et change beaucoup.
 
-### Règle 7 — Choisir le bon créneau pour les tournées
+### Règle 7 - Choisir le bon créneau pour les tournées
 
 Quand nous avons le choix, nous envoyons les livraisons **le matin ou en
 après-midi**, et nous réservons le soir aux commandes de proximité.
 
 **Pourquoi :** le soir coûte 9 minutes de plus que le matin.
 
-### Règle 8 — Noter nos propres chiffres pendant trois semaines
+### Règle 8 - Noter nos propres chiffres pendant trois semaines
 
 Pour chaque commande, nous notons :
 

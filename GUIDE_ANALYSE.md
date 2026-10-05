@@ -1,4 +1,4 @@
-# Guide de l'Analyse — Transport & Logistique
+# Guide de l'Analyse - Transport & Logistique
 
 Ce document constitue le guide de référence technique et fonctionnel du projet d'analyse des retards de livraison. Il détaille l'organisation de l'environnement de travail, la logique de traitement de chaque cellule du notebook principal et l'interprétation méthodique de chaque graphique avec ses **valeurs numériques exactes issues des calculs**.
 
@@ -56,17 +56,17 @@ transport-logistique-ds/
 
 Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de texte explicatif et 40 de code exécutable), ordonnées selon le plan de 16 tâches du cahier des charges.
 
-### Partie A — Préparation et Ingénierie des Données (Tâches 1 à 4)
+### Partie A - Préparation et Ingénierie des Données (Tâches 1 à 4)
 
-#### Cellule 03 (Code) — Initialisation de l'environnement
+#### Cellule 03 (Code) - Initialisation de l'environnement
 - **Rôle :** Importe les bibliothèques requises (`pandas`, `numpy`, `matplotlib`, `seaborn`, `scipy`), configure la résolution automatique des répertoires du projet et définit la charte graphique globale (`whitegrid`, dimensions des figures).
 - **Paramètre clé :** Fixe le seuil de fiabilité statistique `SEUIL_MIN_LIVRAISONS = 100` (KPI K12), qui servira de garde-fou contre les conclusions tirées d'échantillons trop réduits.
 
-#### Cellule 05 (Code) — Ingestion et audit de structure (Tâche 1)
+#### Cellule 05 (Code) - Ingestion et audit de structure (Tâche 1)
 - **Rôle :** Charge le fichier brut `train.csv` et construit un profil structurel de chaque colonne (type de donnée, cardinalité des modalités uniques, exemple de valeur non nulle).
 - **Enseignement technique :** Identifie la présence d'espaces superflus autour des chaînes de caractères, des valeurs manquantes stockées sous forme de texte `"NaN "` et du suffixe `(min)` dans la variable cible `Time_taken(min)`.
 
-#### Cellule 07 (Code) — Nettoyage, typage et normalisation (Tâche 2)
+#### Cellule 07 (Code) - Nettoyage, typage et normalisation (Tâche 2)
 - **Rôle :**
   1. Élimine les espaces périphériques sur l'ensemble des 12 colonnes textuelles.
   2. Remplace explicitement les représentations textuelles de l'absence (`"NaN"`, `"nan"`, `"None"`, `""`) par l'objet standard `pd.NA`.
@@ -74,7 +74,7 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de tex
   4. Convertit les identifiants d'âge, de notation, d'état du véhicule et de coordonnées GPS en types numériques exploitables.
 - **Sortie :** Tableau récapitulatif des 22 colonnes résultantes (les 20 colonnes d'origine conservées pour audit, plus `duree` et `etat_vehicule`).
 
-#### Cellule 08 (Code) — Filtrage des aberrations et imputation (Tâche 2)
+#### Cellule 08 (Code) - Filtrage des aberrations et imputation (Tâche 2)
 - **Rôle :**
   1. Supprime les doublons éventuels sur l'identifiant unique de livraison `ID`.
   2. Élimine les coordonnées géographiques situées hors du territoire national de l'étude (notamment le point `(0, 0)` au milieu de l'océan Atlantique, correspondant à un défaut de géolocalisation GPS).
@@ -82,14 +82,14 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de tex
   4. Impute la modalité explicite `"Inconnu"` aux variables catégorielles incomplètes (`Weatherconditions`, `Road_traffic_density`, `City`, `Type_of_vehicle`) afin de conserver ces observations réelles dans l'analyse.
 - **Sortie :** Journal de nettoyage quantifiant les lignes retirées par opération (taux de conservation global de 91,07 %, soit 41 522 livraisons valides sur 45 593 initiales).
 
-#### Cellule 09 (Code) — Bilan de volumétrie du nettoyage
+#### Cellule 09 (Code) - Bilan de volumétrie du nettoyage
 - **Rôle :** Produit un tableau de synthèse consolidé affichant le volume initial lu (45 593), le volume final analysé (41 522), le nombre de rejets (4 071) et le nombre de colonnes (22).
 
-#### Cellule 11 (Code) — Calcul de la distance géodésique (Tâche 3)
+#### Cellule 11 (Code) - Calcul de la distance géodésique (Tâche 3)
 - **Rôle :** Implémente la formule mathématique d'Haversine de manière vectorisée sur les coordonnées du restaurant et du client.
 - **Raisonnement :** Calcule la distance à vol d'oiseau (`distance_km`) qui représente la borne minimale physique du trajet. Le code valide également la précision de la formule sur deux trajets de référence connus (Paris-Londres : 343,6 km calculés pour 344 km réels ; Bogota-Medellín : 238,7 km calculés pour 239 km réels).
 
-#### Cellule 12 (Code) — Traitement temporel et temps d'attente (Tâche 3)
+#### Cellule 12 (Code) - Traitement temporel et temps d'attente (Tâche 3)
 - **Rôle :**
   1. Vérifie le taux de valeurs temporelles illisibles sur `Time_Orderd` et `Time_Order_picked`.
   2. Assemble la date et l'heure pour former deux horodatages complets `datetime64`.
@@ -97,46 +97,46 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de tex
   4. **Correction du franchissement de minuit :** Lorsqu'une commande est passée avant minuit (ex. 23h50) et collectée après (ex. 00h10), l'écart brut est négatif (760 occurrences identifiées) ; le code ajoute 24 heures (1 440 minutes) pour rétablir la réalité chronologique.
 - **Contrôle :** Attente médiane de 10,0 minutes, attente maximale plafonnée à 15,0 minutes, et zéro valeur supérieure à 90 minutes après correction.
 
-#### Cellule 13 (Code) — Découpage calendaire et discrétisation (Tâche 3)
+#### Cellule 13 (Code) - Découpage calendaire et discrétisation (Tâche 3)
 - **Rôle :**
   1. Extrait l'heure de commande (`heure`) et le numéro du jour de la semaine pour calculer l'indicateur binaire `est_weekend` (samedi/dimanche) et la variable textuelle `jour_nom` (Lundi à Dimanche).
   2. Identifie les heures de pointe conventionnelles (`est_pointe` : 8h, 9h, 18h, 19h, 20h).
   4. Discrétise l'heure en 5 tranches : Nuit (0h-6h), Matin (6h-11h), Midi (11h-15h), Après-midi (15h-18h), Soir (18h-23h).
   5. Segmente la distance en 5 classes kilométriques : `< 2 km`, `2-5 km`, `5-10 km`, `10-20 km`, `> 20 km`.
 
-#### Cellule 14 (Code) — Normalisation des étiquettes et variables ordinales (Tâche 3)
+#### Cellule 14 (Code) - Normalisation des étiquettes et variables ordinales (Tâche 3)
 - **Rôle :** Traduit et harmonise les modalités de la météo, des types de ville et des véhicules. Attribue des encodages ordinaux à la densité du trafic (1: Low à 4: Jam) et aux conditions météo (1: Sunny à 6: Sandstorms) pour les calculs de corrélation.
 - **Hypothèse à connaître :** l'ordre du trafic est naturel, mais l'ordre de la météo est une convention discutable (Sandstorms > Stormy n'est pas une évidence). Ces codages ne servent qu'à la matrice de corrélation (Figure 7) ; toutes les comparaisons de groupes utilisent les catégories brutes, non encodées.
 
-#### Cellule 16 (Code) — Définition du retard et valorisation financière (Tâche 4)
+#### Cellule 16 (Code) - Définition du retard et valorisation financière (Tâche 4)
 - **Rôle :**
   1. Fixe le seuil de retard à la médiane de l'échantillon (`26,0 minutes`).
   2. Crée l'indicateur binaire `en_retard` (`duree > 26 min`) et calcule les `minutes_perdues` pour chaque course au-delà de cette borne.
-  3. Introduit un barème de valorisation horaire **illustratif** (aucun montant dans le jeu de données ; scénario central à 1 200 par heure, soit 20 par minute) pour quantifier l'impact financier théorique.
+  3. Introduit un barème de valorisation horaire **illustratif** (aucun montant dans le jeu de données ; scénario central à 1200 par heure, soit 20 par minute) pour quantifier l'impact financier théorique.
 - **Sortie :** Taux de retard de 45,57 %, moyenne de 3,94 minutes perdues par livraison, et volume global de 163 579 minutes perdues sur l'ensemble de la période.
 
-#### Cellule 17 (Code) — Analyse de sensibilité du seuil de retard (Tâche 4)
+#### Cellule 17 (Code) - Analyse de sensibilité du seuil de retard (Tâche 4)
 - **Rôle :** Compare le taux de retard et le volume de temps perdu selon trois définitions alternatives :
   - Médiane (26,0 min) : 45,57 % de retard, 163 579 min perdues.
   - 75e percentile (32,0 min) : 24,81 % de retard, 74 878 min perdues.
   - Seuil fixe (40,0 min) : 8,86 % de retard, 18 636 min perdues.
 - **Conclusion :** Démontre que le classement des facteurs d'influence reste rigoureusement inchangé quel que soit le seuil retenu.
 
-#### Cellule 18 (Code) — Analyse de sensibilité du coût horaire (Tâche 4)
+#### Cellule 18 (Code) - Analyse de sensibilité du coût horaire (Tâche 4)
 - **Rôle :** Teste trois hypothèses de valorisation économique (basse à 500/h : 1 363 158 ; centrale à 1 200/h : 3 271 580 ; haute à 2 500/h : 6 815 792) confirmant que le choix tarifaire n'impacte que l'échelle monétaire sans fausser les priorités opérationnelles.
 
 ---
 
-### Partie B — Analyses Univariées et Bivariées (Tâches 5 à 9)
+### Partie B - Analyses Univariées et Bivariées (Tâches 5 à 9)
 
-#### Cellule 21 (Code) — Fonction d'agrégation et synthèse par tranche horaire (Tâche 5)
+#### Cellule 21 (Code) - Fonction d'agrégation et synthèse par tranche horaire (Tâche 5)
 - **Rôle :** Définit la fonction réutilisable `par_categorie()` qui calcule systématiquement l'effectif, la durée moyenne, la durée médiane, le taux de retard et les minutes perdues moyennes pour chaque modalité. Génère la synthèse pour les 5 tranches de la journée.
 
-#### Cellule 22 (Code) — Visualisation V1 et V2 (Axe Temps)
+#### Cellule 22 (Code) - Visualisation V1 et V2 (Axe Temps)
 - **Rôle :** Construit et exporte la figure `V1_V2_distribution_et_tranches.png`.
 - **Graphiques générés :** Histogramme des fréquences des durées de livraison (seuil médian à 26 min) et diagramme en barres de la durée moyenne par tranche horaire.
 
-#### Cellule 23 (Code) — Synthèse par jour de la semaine (Tâche 5)
+#### Cellule 23 (Code) - Synthèse par jour de la semaine (Tâche 5)
 - **Rôle :** Agrège les métriques de livraison pour chaque jour de la semaine (Lundi à Dimanche) via `par_categorie("jour_nom")`. Résultats :
 
 | Jour | Livraisons | Durée moy. (min) | Taux retard (%) | Min. perdues moy. |
@@ -151,88 +151,88 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de tex
 
 - **Constat :** Le mercredi est le jour le plus critique (27,76 min, 50,93 % de retard), le jeudi est le plus performant (25,31 min, 41,82 % de retard). L'écart maximal entre jours est de 2,45 minutes, ce qui confirme que le jour de la semaine est un facteur d'influence modéré mais mesurable.
 
-#### Cellule 24 (Code) — Visualisation V3 (Jours de la semaine)
+#### Cellule 24 (Code) - Visualisation V3 (Jours de la semaine)
 - **Rôle :** Construit et exporte la figure `V3_jours_semaine.png`.
 - **Graphiques générés :** Deux diagrammes en barres côte à côte représentant la durée moyenne et le taux de retard par jour de la semaine (Lundi à Dimanche), avec un code couleur distinguant les jours de semaine (bleu foncé) du week-end (bleu clair).
 
-#### Cellule 25 (Code) — Test statistique sur les heures de pointe et week-end (Tâche 5)
-- **Rôle :**
+#### Cellule 25 (Code) - Test statistique sur les heures de pointe et week-end (Tâche 5)
+- **Rôle :
   - Compare la durée en heures de pointe (moyenne 27,58 min, retard 50,96 %) vs autres heures (moyenne 25,52 min, retard 42,20 %) via un test de Mann-Whitney U ($p = 4 \times 10^{-91}$).
   - Compare les jours de semaine (moyenne 26,35 min, retard 45,75 %) vs week-end (moyenne 26,21 min, retard 45,07 %), confirmant que le week-end n'a pas d'impact significatif sur les délais.
 
-#### Cellule 27 (Code) — Indicateurs de l'axe spatial (Tâche 6)
+#### Cellule 27 (Code) - Indicateurs de l'axe spatial (Tâche 6)
 - **Rôle :** Calcule le coefficient de corrélation linéaire entre distance et durée ($r = 0{,}321$) ainsi que la pente par régression linéaire ($0{,}538\text{ min/km}$, KPI K9).
 
-#### Cellule 28 (Code) — Contrôle d'effectif par typologie urbaine (Tâche 6)
+#### Cellule 28 (Code) - Contrôle d'effectif par typologie urbaine (Tâche 6)
 - **Rôle :** Ventile les performances par type de ville (`Metropolitaine` : 27,3 min, n = 34 093 ; `Urbaine` : 22,5 min, n = 6 364 ; `Semi-urbaine` : 49,7 min, n = 164 ; `Inconnu` : 26,9 min, n = 901) et valide le dépassement du seuil $n \ge 100$.
 
-#### Cellule 29 (Code) — Visualisation V7 et V9 (Axe Espace)
+#### Cellule 29 (Code) - Visualisation V7 et V9 (Axe Espace)
 - **Rôle :** Construit et exporte la figure `V7_V9_distance_et_zones.png`.
 - **Graphiques générés :** Nuage de points durée/distance avec courbe des moyennes par classe kilométrique, et cartographie géographique (densité de flux en hexagones bleus et taux de retard localisé).
 
-#### Cellule 31 (Code) — Synthèse par niveau de trafic (Tâche 7)
+#### Cellule 31 (Code) - Synthèse par niveau de trafic (Tâche 7)
 - **Rôle :** Agrège les métriques de livraison selon les quatre paliers de densité routière (`Low`, `Medium`, `High`, `Jam`).
 
-#### Cellule 32 (Code) — Regroupement et synthèse météo (Tâche 7)
+#### Cellule 32 (Code) - Regroupement et synthèse météo (Tâche 7)
 - **Rôle :** Regroupe les conditions climatiques en deux macro-familles comparables : favorable (`Sunny`, `Windy` : moyenne 24,03 min) et sévère (`Fog`, `Stormy`, `Sandstorms` : moyenne 26,93 min).
 
-#### Cellule 33 (Code) — Tests statistiques trafic et météo (Tâche 7)
+#### Cellule 33 (Code) - Tests statistiques trafic et météo (Tâche 7)
 - **Rôle :** Calcule les écarts moyens nets et teste la significativité statistique via Mann-Whitney U pour l'impact du trafic fluide vs embouteillé ($+9{,}91\text{ min}$, $p = 0{,}0$) et pour la météo favorable vs sévère ($+2{,}89\text{ min}$, $p = 1{,}8 \times 10^{-79}$).
 
-#### Cellule 34 (Code) — Visualisation V4 et V6 (Axe Conditions)
+#### Cellule 34 (Code) - Visualisation V4 et V6 (Axe Conditions)
 - **Rôle :** Construit et exporte la figure `V4_V6_trafic_meteo.png`.
 - **Graphiques générés :** Boîtes à moustaches de la durée selon les niveaux de trafic avec ligne de tendance des moyennes, et matrice thermique (heatmap) croisant la densité du trafic et les conditions météo.
 
-#### Cellule 35 (Code) — Test de super-additivité du trafic et de la météo (Tâche 7 / Hypothèse H6)
+#### Cellule 35 (Code) - Test de super-additivité du trafic et de la météo (Tâche 7 / Hypothèse H6)
 - **Rôle :** Mesure si les effets conjoints du trafic dense et du mauvais temps s'additionnent simplement ou se renforcent.
 - **Résultat mathématique :** La durée de référence (Low + Favorable) est de 21,10 min. L'effet isolé du trafic dense est de 26,37 min (+5,27 min). L'effet isolé de la météo sévère est de 21,08 min (-0,02 min). La somme prévisionnelle additive est de 26,36 min. En situation réelle combinée, la durée observée atteint 31,27 min, soit une amplification super-additive de **+4,91 minutes**.
 
-#### Cellule 37 (Code) — Analyse de l'efficacité par type de véhicule (Tâche 8)
+#### Cellule 37 (Code) - Analyse de l'efficacité par type de véhicule (Tâche 8)
 - **Rôle :** Crée le ratio `minutes_par_km` pour évaluer la vitesse opérationnelle relative de chaque véhicule indépendamment de la distance parcourue.
 
-#### Cellule 38 (Code) — Visualisation V8 (Véhicule par classe de distance)
+#### Cellule 38 (Code) - Visualisation V8 (Véhicule par classe de distance)
 - **Rôle :** Construit et exporte la figure `V8_vehicule_par_distance.png`.
 - **Graphique généré :** Carte thermique croisant le type de véhicule et les classes de distance avec les durées moyennes réelles calculées.
 
-#### Cellule 40 (Code) — Concentration des retards et du coût (Tâche 9)
+#### Cellule 40 (Code) - Concentration des retards et du coût (Tâche 9)
 - **Rôle :** Identifie et classe les combinaisons trafic/météo qui génèrent le plus fort volume cumulé de minutes perdues (ex. Jam x Severe concentre 47 706 minutes perdues pour 5 801 livraisons).
 
-#### Cellule 41 (Code) — Visualisation V11 (Hiérarchie des facteurs de retard)
+#### Cellule 41 (Code) - Visualisation V11 (Hiérarchie des facteurs de retard)
 - **Rôle :** Construit et exporte la figure `V11_ecarts_par_facteur.png`.
 - **Graphique généré :** Diagramme en barres horizontales ordonnant les 4 écarts majeurs : Météo (+2,89 min), Distance (+8,40 min), Heure (+9,19 min) et Trafic (+9,91 min).
 
 ---
 
-### Partie C — Croiser, Comparer et Valider (Tâches 10 à 12)
+### Partie C - Croiser, Comparer et Valider (Tâches 10 à 12)
 
-#### Cellule 44 (Code) — Matrice de corrélation et Visualisation V10 (Tâche 10)
+#### Cellule 44 (Code) - Matrice de corrélation et Visualisation V10 (Tâche 10)
 - **Rôle :**
   1. Exclut les modalités `Inconnu` pour éviter d'introduire un biais artificiel dans les calculs.
   2. Calcule la matrice de corrélation de Pearson entre les variables numériques et ordinales.
   3. Construit et exporte la figure `V10_matrice_correlation.png`.
 
-#### Cellule 46 (Code) — Contrôle d'échantillonnage K12 et Visualisation V12 (Tâche 11)
+#### Cellule 46 (Code) - Contrôle d'échantillonnage K12 et Visualisation V12 (Tâche 11)
 - **Rôle :**
   1. Évalue la taille d'échantillon de chaque sous-groupe comparé par rapport au seuil `SEUIL_MIN_LIVRAISONS = 100`.
   2. Construit et exporte la figure `V12_effectifs_groupes.png`, mettant en évidence que seul le véhicule `bicycle` ($n = 43$) est sous le seuil critique.
 
-#### Cellule 47 (Code) — Bootstrap et utilité opérationnelle (Tâche 11)
+#### Cellule 47 (Code) - Bootstrap et utilité opérationnelle (Tâche 11)
 - **Rôle :**
   1. Génère un intervalle de confiance à 95% par ré-échantillonnage Bootstrap (1 000 itérations) sur l'écart de trafic fluide vs embouteillé : `[9,71 min ; 10,12 min]`.
   2. Démontre que la corrélation entre temps d'attente en restaurant et durée de livraison est nulle ($r = -0{,}010$), invalidant ce levier d'action.
 
-#### Cellule 49 (Code) — Consolidation du tableau des 12 KPI (Tâche 12)
+#### Cellule 49 (Code) - Consolidation du tableau des 12 KPI (Tâche 12)
 - **Rôle :** Compile dans un DataFrame unique les **12 KPI portant un code (K1 à K12)**, avec une colonne `Code` qui permet de les comparer ligne à ligne au cahier des charges. Deux statistiques complémentaires (durée moyenne, corrélation distance/durée) figurent dans la même table avec le code `-` : elles ne comptent pas dans le décompte des KPI.
 
-#### Cellule 50 (Code) — Visualisation V13 (Tableau de bord visuel des KPI)
+#### Cellule 50 (Code) - Visualisation V13 (Tableau de bord visuel des KPI)
 - **Rôle :** Construit et exporte la figure `V13_tableau_de_bord_kpi.png`.
 - **Graphique généré :** Tableau de bord sous forme de barres horizontales classées par magnitude croissante et colorées par catégorie.
 
 ---
 
-### Partie D — Scénarios d'Action et Recommandations (Tâches 13 à 16)
+### Partie D - Scénarios d'Action et Recommandations (Tâches 13 à 16)
 
-#### Cellule 53 (Code) — Chiffrage des scénarios d'optimisation (Tâche 13)
+#### Cellule 53 (Code) - Chiffrage des scénarios d'optimisation (Tâche 13)
 - **Rôle :** Implémente la fonction `gain_par_livraison()` qui attribue à **chaque livraison** le gain d'un levier, mesuré à classe de distance comparable. Les livraisons qu'un levier ne concerne pas reçoivent `NaN`, ce qui permet de savoir quels leviers se recouvrent. Une colonne `cumulable` vaut `non` sur chaque ligne : les 4 gains ne peuvent pas être additionnés.
   - *Planifier hors des zones congestionnées :* 12 950 livraisons concernées, durée actuelle 31,19 min, gain de +8,78 min/livraison, **gain total de 113 641 min**.
   - *Adapter le véhicule au type de trajet :* 41 522 livraisons concernées, durée actuelle 26,32 min, gain de +2,39 min/livraison, **gain total de 99 173 min**.
@@ -240,11 +240,11 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de tex
   - *Décaler les livraisons hors des pointes :* 15 966 livraisons concernées, durée actuelle 27,58 min, gain de +1,88 min/livraison, **gain total de 29 994 min**.
   - **Attention :** le levier « véhicule » porte sur les 41 522 livraisons, c'est-à-dire la totalité du jeu. Il englobe donc les livraisons déjà comptées par les trois autres leviers. C'est la raison principale pour laquelle les lignes ne s'additionnent pas.
 
-#### Cellule 54 (Code) — Visualisation V14 (Gains par scénario d'action)
+#### Cellule 54 (Code) - Visualisation V14 (Gains par scénario d'action)
 - **Rôle :** Construit et exporte la figure `V14_gains_par_scenario.png`.
 - **Graphique généré :** Diagramme en barres horizontales classant les scénarios selon le volume total de minutes économisées.
 
-#### Cellule 57 (Code) — Validation formelle des hypothèses (Tâche 15)
+#### Cellule 57 (Code) - Validation formelle des hypothèses (Tâche 15)
 - **Rôle :** Formalise l'état de validation des 6 hypothèses de travail :
   - H1 (Distance) : confirmée ($r = 0{,}32$ ; $0{,}54\text{ min/km}$, portée modérée).
   - H2 (Trafic) : confirmée (écart $9{,}9\text{ min}$ ; $p = 0$, portée forte).
@@ -253,13 +253,13 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de tex
   - H5 (Attente) : **infirmée** (corrélation $-0{,}010$, portée négligeable).
   - H6 (Trafic x Météo) : confirmée (surcoût d'interaction $+4{,}9\text{ min}$, effet super-additif).
 
-#### Cellule 61 (Code) — Priorisation des recommandations (Tâche 16)
+#### Cellule 61 (Code) - Priorisation des recommandations (Tâche 16)
 - **Rôle :** Met en forme le tableau de restitution opérationnelle classant les 4 actions par priorité décroissante de gain total.
 
-#### Cellule 62 (Code) — Contrôle de cohérence et export Markdown
+#### Cellule 62 (Code) - Contrôle de cohérence et export Markdown
 - **Rôle :** Écrit `outputs/tables/recommandations.md` en y ajoutant un avertissement de non-cumulabilité, et calcule le **total réaliste** : pour chaque livraison, seul le meilleur gain parmi les leviers qui la concernent est retenu. Le total non cumulable ressort à **241 279 min**, contre **302 541 min** si l'on additionne les quatre lignes à la main — soit 61 262 minutes de gain fantôme dues au double comptage.
 
-#### Cellule 65 (Code) — Exportation définitive et audit final du livrable
+#### Cellule 65 (Code) - Exportation définitive et audit final du livrable
 - **Rôle :** Sauvegarde les 4 fichiers CSV de référence (`kpi.csv`, `scenarios.csv`, `hypotheses.csv`, `effectifs_groupes.csv`) et affiche le bilan de clôture (41 522 lignes, 91,07 % de conservation, 12 KPI du cahier des charges + 2 statistiques complémentaires, 10 figures, 4 tables).
 
 ---
