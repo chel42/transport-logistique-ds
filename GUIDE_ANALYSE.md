@@ -34,7 +34,7 @@ transport-logistique-ds/
 │   └── tables/                          # Données tabulaires exportées au format CSV et Markdown
 │       ├── effectifs_groupes.csv        # Contrôle des tailles d'échantillons (KPI K12)
 │       ├── hypotheses.csv               # Bilan de validation des 6 hypothèses statistiques
-│       ├── kpi.csv                      # Synthèse chiffrée des 12 indicateurs de performance
+│       ├── kpi.csv                      # Synthèse chiffrée des 12 KPI (K1 à K12)
 │       ├── recommandations.md           # Tableau de synthèse des actions prioritaires
 │       └── scenarios.csv                # Chiffrage des gains potentiels par levier d'action
 │
@@ -220,7 +220,7 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **64 cellules** (26 de tex
   2. Démontre que la corrélation entre temps d'attente en restaurant et durée de livraison est nulle ($r = -0{,}010$), invalidant ce levier d'action.
 
 #### Cellule 49 (Code) — Consolidation du tableau des 12 KPI (Tâche 12)
-- **Rôle :** Compile dans un DataFrame unique l'ensemble des 12 indicateurs clés de performance du projet avec leurs valeurs et unités exactes.
+- **Rôle :** Compile dans un DataFrame unique les **12 KPI portant un code (K1 à K12)**, avec une colonne `Code` qui permet de les comparer ligne à ligne au cahier des charges. Deux statistiques complémentaires (durée moyenne, corrélation distance/durée) figurent dans la même table avec le code `-` : elles ne comptent pas dans le décompte des KPI.
 
 #### Cellule 50 (Code) — Visualisation V13 (Tableau de bord visuel des KPI)
 - **Rôle :** Construit et exporte la figure `V13_tableau_de_bord_kpi.png`.
@@ -231,11 +231,12 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **64 cellules** (26 de tex
 ### Partie D — Scénarios d'Action et Recommandations (Tâches 13 à 16)
 
 #### Cellule 53 (Code) — Chiffrage des scénarios d'optimisation (Tâche 13)
-- **Rôle :** Implémente la fonction `gain_situation()` et quantifie les 4 scénarios d'action à distance comparable :
+- **Rôle :** Implémente la fonction `gain_par_livraison()` qui attribue à **chaque livraison** le gain d'un levier, mesuré à classe de distance comparable. Les livraisons qu'un levier ne concerne pas reçoivent `NaN`, ce qui permet de savoir quels leviers se recouvrent. Une colonne `cumulable` vaut `non` sur chaque ligne : les 4 gains ne peuvent pas être additionnés.
   - *Planifier hors des zones congestionnées :* 12 950 livraisons concernées, durée actuelle 31,19 min, gain de +8,78 min/livraison, **gain total de 113 641 min**.
   - *Adapter le véhicule au type de trajet :* 41 522 livraisons concernées, durée actuelle 26,32 min, gain de +2,39 min/livraison, **gain total de 99 173 min**.
   - *Prévoir une marge par mauvais temps :* 20 747 livraisons concernées, durée actuelle 26,93 min, gain de +2,88 min/livraison, **gain total de 59 733 min**.
   - *Décaler les livraisons hors des pointes :* 15 966 livraisons concernées, durée actuelle 27,58 min, gain de +1,88 min/livraison, **gain total de 29 994 min**.
+  - **Attention :** le levier « véhicule » porte sur les 41 522 livraisons, c'est-à-dire la totalité du jeu. Il englobe donc les livraisons déjà comptées par les trois autres leviers. C'est la raison principale pour laquelle les lignes ne s'additionnent pas.
 
 #### Cellule 54 (Code) — Visualisation V14 (Gains par scénario d'action)
 - **Rôle :** Construit et exporte la figure `V14_gains_par_scenario.png`.
@@ -254,10 +255,10 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **64 cellules** (26 de tex
 - **Rôle :** Met en forme le tableau de restitution opérationnelle classant les 4 actions par priorité décroissante de gain total.
 
 #### Cellule 62 (Code) — Contrôle de cohérence et export Markdown
-- **Rôle :** Écrit `outputs/tables/recommandations.md` et calcule la somme brute des gains (302 541 minutes), tout en rappelant que les scénarios se recouvrent partiellement.
+- **Rôle :** Écrit `outputs/tables/recommandations.md` en y ajoutant un avertissement de non-cumulabilité, et calcule le **total réaliste** : pour chaque livraison, seul le meilleur gain parmi les leviers qui la concernent est retenu. Le total non cumulable ressort à **241 279 min**, contre **302 541 min** si l'on additionne les quatre lignes à la main — soit 61 262 minutes de gain fantôme dues au double comptage.
 
 #### Cellule 65 (Code) — Exportation définitive et audit final du livrable
-- **Rôle :** Sauvegarde les 4 fichiers CSV de référence (`kpi.csv`, `scenarios.csv`, `hypotheses.csv`, `effectifs_groupes.csv`) et affiche le bilan de clôture (41 522 lignes, 91,07 % de conservation, 9 figures, 4 tables).
+- **Rôle :** Sauvegarde les 4 fichiers CSV de référence (`kpi.csv`, `scenarios.csv`, `hypotheses.csv`, `effectifs_groupes.csv`) et affiche le bilan de clôture (41 522 lignes, 91,07 % de conservation, 12 KPI du cahier des charges + 2 statistiques complémentaires, 10 figures, 4 tables).
 
 ---
 

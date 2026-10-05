@@ -1,7 +1,7 @@
 N°,énoncé,mesure,statut,portée
 H1,La durée augmente avec la distance,corrélation 0.32 ; 0.54 min/km,confirmée,modéré
-H2,Le trafic dense allonge les délais,écart 9.9 min ; p = 0e+00,confirmée,fort
-H3,Les pointes concentrent les retards,écart 2.1 min ; p = 4e-91,confirmée,modéré
+H2,Le trafic dense allonge les délais,écart 9.9 min ; p < 1e-300,confirmée,fort
+H3,Les pointes concentrent les retards,écart 2.1 min ; p = 4.2e-91,confirmée,modéré
 H4,L'efficacité du véhicule dépend du contexte,le plus rapide change selon la classe de distance,confirmée,arbitrage
 H5,L'attente allonge la durée totale,corrélation -0.010,infirmée,négligeable (r ≈ 0)
 H6,Les effets du trafic et de la météo se cumulent,écart à l'additivité +4.9 min,confirmée,super-additif

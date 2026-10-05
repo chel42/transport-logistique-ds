@@ -1,13 +1,15 @@
-Catégorie,Indicateur,Valeur,Unité
-Délais,Durée médiane (K1),26.0,min
-Délais,Durée moyenne,26.3,min
-Délais,Écart pire / meilleur créneau (K6),9.2,min
-Délais,Minutes perdues par livraison (K3),3.94,min
-Retards,Taux de retard (K2),45.6,%
-Retards,Temps perdu sur la période (K4),114,jours
-Conditions,Trafic dense vs fluide (K7),9.9,min
-Conditions,Météo sévère vs favorable (K8),2.9,min
-Espace,Minutes ajoutées par km (K9),0.54,min/km
-Espace,Corrélation distance / durée,0.32,coef.
-Qualité,Conservation des données (K11),91.1,%
-Qualité,Groupes non concluants (K12),1,groupes
+Catégorie,Code,Indicateur,Valeur,Unité
+Délais,K1,Durée médiane,26.0,min
+Délais,-,Durée moyenne (complémentaire),26.3,min
+Délais,K6,Écart pire / meilleur créneau,9.2,min
+Délais,K3,Minutes perdues par livraison,3.94,min
+Délais,K5,Temps d'attente moyen,10.0,min
+Retards,K2,Taux de retard,45.6,%
+Retards,K4,Temps perdu sur la période,114,jours
+Retards,K10,Gain unitaire sans les bouchons,8.78,min
+Conditions,K7,Trafic dense vs fluide,9.9,min
+Conditions,K8,Météo sévère vs favorable,2.9,min
+Espace,K9,Minutes ajoutées par km,0.54,min/km
+Espace,-,Corrélation distance / durée (complémentaire),0.32,coef.
+Qualité,K11,Conservation des données,91.1,%
+Qualité,K12,Groupes non concluants,1,groupes

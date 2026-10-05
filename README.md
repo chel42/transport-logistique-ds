@@ -56,6 +56,8 @@ transport-logistique-ds/
 ├── notebooks/
 │   └── analyse_delais_livraison.ipynb   ← LE LIVRABLE PRINCIPAL
 │
+├── GUIDE_ANALYSE.md                      ← commentaire cellule par cellule
+│
 ├── data/
 │   └── raw/
 │       └── train.csv                    ← fichier source (Kaggle, versionné)
@@ -96,7 +98,7 @@ Le notebook suit l'ordre du cahier des charges. Chaque section a la même forme 
 | **C — Comparer** | 10 à 12 | Corrélations, comparaisons statistiques, tableau de bord |
 | **D — Conclure** | 13 à 16 | Scénarios, règles d'interprétation, bilan |
 
-Le notebook compte **64 cellules** : 27 de texte et 37 de code. Les explications
+Le notebook compte **66 cellules** : 26 de texte et 40 de code. Les explications
 et les commentaires dans le code sont concis, techniques et sans superflu. Le
 notebook ne contient aucun emoji et n'affiche que des tableaux et des
 graphiques — jamais de `print()`.
@@ -106,18 +108,38 @@ graphiques — jamais de `print()`.
 | Fichier | Question à laquelle il répond |
 |---|---|
 | `V1_V2_distribution_et_tranches.png` | Quelle est la durée typique, et quand est-elle la plus longue ? |
+| `V3_jours_semaine.png` | Le retard change-t-il selon le jour de la semaine ? |
 | `V4_V6_trafic_meteo.png` | Quel effet ont le trafic et la météo, et se cumulent-ils ? |
 | `V7_V9_distance_et_zones.png` | Quel effet a la distance, et où sont les zones à risque ? |
 | `V8_vehicule_par_distance.png` | Quel véhicule choisir selon le type de trajet ? |
 | `V10_matrice_correlation.png` | Quelles variables sont associées entre elles ? |
 | `V11_ecarts_par_facteur.png` | Quel facteur a le plus d'écart ? |
 | `V12_effectifs_groupes.png` | Quels groupes sont assez grands pour conclure ? |
-| `V13_tableau_de_bord_kpi.png` | Synthèse visuelle des 12 indicateurs |
+| `V13_tableau_de_bord_kpi.png` | Synthèse visuelle des 12 KPI |
 | `V14_gains_par_scenario.png` | Quel levier d'action rapporte le plus ? |
 
 Les tableaux de résultats sont exportés dans `outputs/tables/` :
 `kpi.csv`, `scenarios.csv`, `hypotheses.csv`, `effectifs_groupes.csv` et
 `recommandations.md`.
+
+---
+
+## Deux précautions pour lire les chiffres
+
+### Les 4 leviers d'action ne sont pas cumulables
+
+Ils se recouvrent : une livraison peut être en congestion **et** par mauvais
+temps **et** aux heures de pointe. Additionner les gains de `scenarios.csv`
+compterait donc les mêmes livraisons plusieurs fois. Le tableau porte une colonne
+`cumulable` qui vaut `non` sur chaque ligne, et `recommandations.md` précise en
+bas de page le total réaliste, retenu une seule fois par livraison.
+
+### Les KPI et les statistiques complémentaires
+
+`kpi.csv` contient **12 lignes portant un code** (K1 à K12) : ce sont les
+indicateurs du cahier des charges, et eux seuls. Deux lignes supplémentaires
+n'ont pas de code — durée moyenne et corrélation distance/durée — : ce sont des
+statistiques de confort, utiles à la lecture mais hors décompte.
 
 ---
 
