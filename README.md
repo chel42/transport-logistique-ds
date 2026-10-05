@@ -96,10 +96,10 @@ Le notebook suit l'ordre du cahier des charges. Chaque section a la même forme 
 | **C — Comparer** | 10 à 12 | Corrélations, comparaisons statistiques, tableau de bord |
 | **D — Conclure** | 13 à 16 | Scénarios, règles d'interprétation, bilan |
 
-Le notebook compte **66 cellules** : 26 de texte et 40 de code. Les explications
-sont volontairement courtes ; les commentaires détaillant le raisonnement sont
-placés **dans le code**, là où ils sont utiles. Le notebook ne contient aucun
-emoji et n'affiche que des tableaux et des graphiques — jamais de `print()`.
+Le notebook compte **64 cellules** : 27 de texte et 37 de code. Les explications
+et les commentaires dans le code sont concis, techniques et sans superflu. Le
+notebook ne contient aucun emoji et n'affiche que des tableaux et des
+graphiques — jamais de `print()`.
 
 ### Les figures produites
 

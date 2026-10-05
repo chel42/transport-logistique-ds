@@ -4,6 +4,13 @@ Tranche horaire,Matin,5272,oui
 Tranche horaire,Midi,4056,oui
 Tranche horaire,Apres-midi,5377,oui
 Tranche horaire,Soir,20991,oui
+Jour de la semaine,Lundi,5490,oui
+Jour de la semaine,Mardi,5612,oui
+Jour de la semaine,Mercredi,6285,oui
+Jour de la semaine,Jeudi,5607,oui
+Jour de la semaine,Vendredi,6125,oui
+Jour de la semaine,Samedi,5575,oui
+Jour de la semaine,Dimanche,5503,oui
 Niveau de trafic,Low,14095,oui
 Niveau de trafic,Medium,10023,oui
 Niveau de trafic,High,4046,oui
