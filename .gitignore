@@ -18,6 +18,9 @@ ENV/
 .conda/
 .env
 
+# Outils de lintage (cache local, jamais versionné)
+.ruff_cache/
+
 # Jupyter : les sorties de sauvegarde ne doivent pas être versionnées
 .ipynb_checkpoints/
 profile_default/

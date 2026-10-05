@@ -12,14 +12,15 @@ Le projet est organisé selon une arborescence modulaire qui sépare strictement
 transport-logistique-ds/
 │
 ├── notebooks/
-│   └── analyse_delais_livraison.ipynb   # Document principal de calcul (64 cellules)
+│   └── analyse_delais_livraison.ipynb   # Document principal de calcul (66 cellules)
 │
 ├── data/
 │   └── raw/
 │       └── train.csv                    # Données brutes Kaggle (45 593 lignes, 20 colonnes)
 │
-├── figures/                             # 9 visualisations exportées en haute résolution
+├── figures/                             # 10 visualisations exportées en haute résolution
 │   ├── V1_V2_distribution_et_tranches.png
+│   ├── V3_jours_semaine.png
 │   ├── V4_V6_trafic_meteo.png
 │   ├── V7_V9_distance_et_zones.png
 │   ├── V8_vehicule_par_distance.png
@@ -53,7 +54,7 @@ transport-logistique-ds/
 
 ## 2. Explication Détaillée des Cellules du Notebook
 
-Le notebook `analyse_delais_livraison.ipynb` comprend **64 cellules** (26 de texte explicatif et 38 de code exécutable), ordonnées selon le plan de 16 tâches du cahier des charges.
+Le notebook `analyse_delais_livraison.ipynb` comprend **66 cellules** (26 de texte explicatif et 40 de code exécutable), ordonnées selon le plan de 16 tâches du cahier des charges.
 
 ### Partie A — Préparation et Ingénierie des Données (Tâches 1 à 4)
 
@@ -105,12 +106,13 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **64 cellules** (26 de tex
 
 #### Cellule 14 (Code) — Normalisation des étiquettes et variables ordinales (Tâche 3)
 - **Rôle :** Traduit et harmonise les modalités de la météo, des types de ville et des véhicules. Attribue des encodages ordinaux à la densité du trafic (1: Low à 4: Jam) et aux conditions météo (1: Sunny à 6: Sandstorms) pour les calculs de corrélation.
+- **Hypothèse à connaître :** l'ordre du trafic est naturel, mais l'ordre de la météo est une convention discutable (Sandstorms > Stormy n'est pas une évidence). Ces codages ne servent qu'à la matrice de corrélation (Figure 7) ; toutes les comparaisons de groupes utilisent les catégories brutes, non encodées.
 
 #### Cellule 16 (Code) — Définition du retard et valorisation financière (Tâche 4)
 - **Rôle :**
   1. Fixe le seuil de retard à la médiane de l'échantillon (`26,0 minutes`).
   2. Crée l'indicateur binaire `en_retard` (`duree > 26 min`) et calcule les `minutes_perdues` pour chaque course au-delà de cette borne.
-  3. Introduit un barème de valorisation horaire conventionnel (scénario central à 1 200 par heure, soit 20 par minute) pour quantifier l'impact financier théorique.
+  3. Introduit un barème de valorisation horaire **illustratif** (aucun montant dans le jeu de données ; scénario central à 1 200 par heure, soit 20 par minute) pour quantifier l'impact financier théorique.
 - **Sortie :** Taux de retard de 45,57 %, moyenne de 3,94 minutes perdues par livraison, et volume global de 163 579 minutes perdues sur l'ensemble de la période.
 
 #### Cellule 17 (Code) — Analyse de sensibilité du seuil de retard (Tâche 4)
@@ -264,11 +266,12 @@ Le notebook `analyse_delais_livraison.ipynb` comprend **64 cellules** (26 de tex
 
 ## 3. Catalogue et Analyse des Graphiques du Projet
 
-Les 9 visualisations enregistrées dans le dossier `figures/` présentent les **valeurs numériques réelles** suivantes :
+Les 10 visualisations enregistrées dans le dossier `figures/` présentent les **valeurs numériques réelles** suivantes :
 
 ```text
 figures/
 ├── V1_V2_distribution_et_tranches.png
+├── V3_jours_semaine.png
 ├── V7_V9_distance_et_zones.png
 ├── V4_V6_trafic_meteo.png
 ├── V8_vehicule_par_distance.png
@@ -310,7 +313,34 @@ figures/
 
 ---
 
-### Figure 2 : `V7_V9_distance_et_zones.png`
+### Figure 2 : `V3_jours_semaine.png`
+
+```text
++-------------------------------------------------------------------------------+
+| Durée moyenne par jour        |  Taux de retard par jour                      |
+|                               |                                               |
+|  28 |        [27.8]            |   51 |        [50.9]                           |
+|  27 |  [26.2]  ■   [26.8]      |   48 |  [44.7]  ■   [47.8]                      |
+|  26 |  ■   [25.5]  ■   ■  [26.4]|   45 |  ■   [42.6]  ■   ■  [45.5]              |
+|  25 |      ■        ■          |   42 |      ■        ■                          |
+|      Lun Mar Mer Jeu Ven Sam Dim|       Lun Mar Mer Jeu Ven Sam Dim             |
+|      ---- seuil 26 min ----     |                                               |
++-------------------------------------------------------------------------------+
+```
+
+- **Question traitée :** Le retard change-t-il selon le jour de la semaine ?
+- **Valeurs réelles affichées (issues de `par_jour`) :**
+  - **Mercredi :** 27,76 min de durée moyenne, 50,93 % de taux de retard (6 285 livraisons) — le pire jour.
+  - **Jeudi :** 25,31 min, 41,82 % (5 607 livraisons) — le meilleur jour.
+  - **Vendredi :** 26,83 min, 47,80 % (6 125 livraisons).
+  - **Lundi :** 26,24 min, 44,72 % ; **Mardi :** 25,45 min, 42,57 % ; **Samedi :** 26,00 min, 44,61 % ; **Dimanche :** 26,43 min, 45,54 %.
+  - Écart max / min : **2,45 min** de durée moyenne et **9,11 points** de taux de retard (Mercredi vs Jeudi).
+  - Code couleur : jours de semaine en bleu foncé, week-end en bleu clair ; trait pointillé = seuil médian de 26 min.
+- **Interprétation :** L'écart entre jours est réel mais modéré (moins de 2,5 min de durée moyenne), et il ne suit pas le schéma « week-end = pire jours » : le mercredi est le point haut et le jeudi le point bas. Le jour de la semaine est un facteur secondaire comparé au trafic (+9,91 min) ou à l'horaire (+9,19 min). Les effectifs de tous les jours (5 490 à 6 285) dépassent le seuil de 100 (K12).
+
+---
+
+### Figure 3 : `V7_V9_distance_et_zones.png`
 
 ```text
 +---------------------------------------+---------------------------------------+
@@ -341,7 +371,7 @@ figures/
 
 ---
 
-### Figure 3 : `V4_V6_trafic_meteo.png`
+### Figure 4 : `V4_V6_trafic_meteo.png`
 
 ```text
 +---------------------------------------+---------------------------------------+
@@ -374,7 +404,7 @@ figures/
 
 ---
 
-### Figure 4 : `V8_vehicule_par_distance.png`
+### Figure 5 : `V8_vehicule_par_distance.png`
 
 ```text
 +-------------------------------------------------------------------------------+
@@ -401,7 +431,7 @@ figures/
 
 ---
 
-### Figure 5 : `V11_ecarts_par_facteur.png`
+### Figure 6 : `V11_ecarts_par_facteur.png`
 
 ```text
 +-------------------------------------------------------------------------------+
@@ -427,7 +457,7 @@ figures/
 
 ---
 
-### Figure 6 : `V10_matrice_correlation.png`
+### Figure 7 : `V10_matrice_correlation.png`
 
 ```text
 +-------------------------------------------------------------------------------+
@@ -445,6 +475,7 @@ figures/
 ```
 
 - **Question traitée :** Quelles variables sont corrélées à la durée de livraison ?
+- **Note de lecture sur l'affichage :** les coefficients de la matrice sont arrondis à 2 décimales. Une cellule affichée **« -0.00 »** n'est pas un zéro négatif : elle signifie une corrélation légèrement négative dont la valeur absolue est inférieure à 0,005 (par exemple `attente_min` / `niveau_trafic` : -0,0042). Le signe moins est conservé pendant l'arrondi alors que la magnitude devient 0,00. En pratique, ces cellules se lisent comme une **corrélation nulle** (|r| < 0,005).
 - **Valeurs réelles calculées dans la matrice :**
   - `niveau_trafic` : **+0,42** (première corrélation explicative).
   - `note_livreur` : **-0,35** (les livreurs chevronnés ont de meilleures notes et reçoivent les trajets complexes).
@@ -457,7 +488,7 @@ figures/
 
 ---
 
-### Figure 7 : `V12_effectifs_groupes.png`
+### Figure 8 : `V12_effectifs_groupes.png`
 
 ```text
 +-------------------------------------------------------------------------------+
@@ -479,7 +510,7 @@ figures/
 
 ---
 
-### Figure 8 : `V13_tableau_de_bord_kpi.png`
+### Figure 9 : `V13_tableau_de_bord_kpi.png`
 
 ```text
 +-------------------------------------------------------------------------------+
@@ -517,7 +548,7 @@ figures/
 
 ---
 
-### Figure 9 : `V14_gains_par_scenario.png`
+### Figure 10 : `V14_gains_par_scenario.png`
 
 ```text
 +-------------------------------------------------------------------------------+

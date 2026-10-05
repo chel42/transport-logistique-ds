@@ -71,6 +71,14 @@ Mais ce n'est pas régulier. Sur 100 livraisons, environ **46 dépassent** cette
 durée normale. Autrement dit, presque une commande sur deux prend plus de temps
 que la normale.
 
+**Comment lire ce chiffre :** la durée normale de 26 minutes est la *valeur
+médiane* de l'étude, c'est-à-dire le point qui partage les livraisons en deux
+moitiés égales. Par construction, environ la moitié d'entre elles la dépasse
+donc toujours — le « 46 sur 100 » décrit la répartition de nos durées, il ne
+mesure pas une surprise ni une défaillance. Ce qui est utile, c'est de savoir
+**quelles** livraisons dépassent ce seuil et pourquoi : c'est tout l'objet des
+causes détaillées ci-dessous.
+
 Chaque livraison prend en moyenne **4 minutes de plus** que la durée normale.
 
 ### Les quatre causes de retard, par ordre d'importance
@@ -90,17 +98,21 @@ dense.
 
 #### 2. Livrer plusieurs commandes dans la même tournée
 
-Quand un livreur prend **une seule** commande, la livraison dure environ
-**23 minutes**.
+Plus le livreur cumule de commandes dans sa tournée, plus la livraison prend de
+temps :
 
-Quand il en prend **trois** dans la même tournée, elle dure environ
-**48 minutes**.
+- Une seule commande : **23 minutes**.
+- Deux commandes : **27 minutes**.
+- Trois commandes : **40 minutes**.
+- Quatre commandes : **48 minutes**.
 
 Le livreur ne travaille pas plus vite : il perd du temps à chaque arrêt
 supplémentaire, à trouver l'adresse, à chercher le client, à attendre la
 livraison.
 
-**Chaque commande supplémentaire coûte environ 12 minutes.**
+**Chaque commande ajoutée coûte entre 4 et 14 minutes, soit un peu plus de
+8 minutes en moyenne.** Le plus gros saut vient de la troisième commande
+(+14 minutes) : c'est le moment où la tournée commence à se compliquer vraiment.
 
 #### 3. Les jours de festival
 
@@ -183,13 +195,16 @@ réellement mis. Le résultat va à l'encontre de nos habitudes :
 
 | Distance de la course | Véhicule le plus rapide | Véhicule le plus lent |
 |---|---|---|
-| Moins de 2 km | **Le vélo** (14 min) | Moto (23 min) |
-| 2 à 5 km | **La trottinette électrique** (21 min) | Moto (24 min) |
-| 5 à 10 km | **La moto** (24 min) | Vélo (23 min) |
-| Plus de 20 km | **La moto** (31 min) | Vélo (30 min) |
+| Moins de 2 km | **Le vélo** (14 min) | La moto (23 min) |
+| 2 à 5 km | **La trottinette électrique** (21 min) | Le vélo (25 min) |
+| 5 à 10 km | **Le scooter** (22 min) | La moto (26 min) |
+| 10 à 20 km | **La trottinette électrique** (28 min) | Le vélo (33 min) |
+| Plus de 20 km | **Le scooter** (28 min) | La moto (31 min) |
 
-**La moto n'est pas toujours la plus rapide.** Sur les courtes distances, le vélo
-et la trottinette font mieux, et moins cher.
+**La moto n'est le plus rapide sur aucune distance** : elle est même la plus
+lente sur trois distances sur cinq. Sur les courtes courses, le vélo gagne ;
+au-delà de 5 km, ce sont les scooters et les trottinettes qui passent en
+premier.
 
 Si nous utilisons toujours le même véhicule pour toutes les courses, nous payons
 trop cher et nous faisons attendre.
@@ -235,8 +250,8 @@ distance. Mieux vaut annoncer 45 minutes et tenir, que annoncer 30 et échouer.
 | Le soir, quelle que soit la zone | 1 commande maximum |
 | Plus de 2 commandes | Uniquement le matin, et seulement vers des zones éloignées les unes des autres |
 
-**Pourquoi :** trois commandes dans une tournée coûtent 25 minutes de plus
-qu'une seule.
+**Pourquoi :** deux commandes ajoutent seulement 4 minutes, mais trois en
+ajoutent déjà 18 par rapport à une livraison seule — et quatre, 25 minutes.
 
 ### Règle 3 — Les jours de festival, on change de plan
 
@@ -252,7 +267,7 @@ qu'une seule.
 |---|---|
 | Moins de 2 km | **Le vélo** |
 | 2 à 5 km | **La trottinette électrique** |
-| Plus de 5 km | **La moto ou le scooter** |
+| Plus de 5 km | **Le scooter ou la trottinette électrique** |
 
 **Ne pas envoyer de voiture pour une course de moins de 5 km.** Elle sera plus
 lente et plus coûteuse.
@@ -310,9 +325,11 @@ réalisées dans une autre ville et par un autre type de service. Les ordres de
 grandeur sont fiables, mais **les chiffres exacts ne sont pas les nôtres**. La
 règle 8 existe précisément pour les vérifier.
 
-**Aucun montant n'a été analysé.** L'étude mesure des **temps**, pas des euros.
-Nous ne pouvons donc pas dire « nous perdons tant par mois » : nous ne le savons
-pas encore.
+**Aucun montant réel n'a été analysé.** L'étude mesure des **temps**, pas des
+euros : un barème de prix horaire intervient dans les calculs techniques, mais
+uniquement à titre illustratif, pour comparer des ordres de grandeur. Il ne
+reflète pas nos coûts. Nous ne pouvons donc pas dire « nous perdons tant par
+mois » : nous ne le savons pas encore.
 
 **L'état de la route et la disponibilité du carburant ne figurent pas** dans
 l'étude. Ce sont deux facteurs importants pour notre activité. Nous les
@@ -334,7 +351,7 @@ passe en saison des pluies.
 | Qu'est-ce qui cause le plus de retard ? | La circulation dans la ville. |
 | Qu'est-ce que nous pouvons corriger nous-mêmes ? | Le regroupement de commandes et le délai annoncé. |
 | Le soir est-il plus difficile ? | Oui, nettement. |
-| Lequel de nos véhicules est le plus lent ? | La moto classique, sur les courtes distances. |
+| Lequel de nos véhicules est le plus lent ? | La moto classique, sur trois distances sur cinq. |
 
 ### Les trois décisions à prendre cette semaine
 
